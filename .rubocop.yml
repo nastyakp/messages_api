@@ -1,0 +1,10 @@
+Metrics/LineLength:
+  Description: 'Limit lines to 112 characters.'
+  StyleGuide: '#112-character-limits'
+  Max: 112
+AllCops:
+  Exclude:
+    - 'bin/update'
+    - 'bin/setup'
+Metrics/BlockLength:
+  Max: 100
