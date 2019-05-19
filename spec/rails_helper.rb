@@ -16,6 +16,8 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -61,6 +63,11 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.include Requests::AuthHelpers::Includables, type: :request
+  config.extend Requests::AuthHelpers::Extensions, type: :request
+  config.include Requests::SpecHelper, type: :request
+
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
