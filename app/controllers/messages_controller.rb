@@ -10,8 +10,6 @@ class MessagesController < ApplicationController
   def create
     @message = Message.new(message_params)
     @message.user = current_user
-    # dobavit potom beforesave a luchshe default pryam v sqltable
-    @message.votes = 0
     if @message.save
       render json: @message, status: :created
     else
