@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-DeviseTokenAuth.setup do |config|
+DeviseTokenAuth.setup do |_config|
   require 'devise/orm/active_record'
   # By default the authorization headers will change after each request. The
   # client is responsible for keeping track of the changing tokens. Change

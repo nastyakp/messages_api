@@ -8,5 +8,4 @@ class User < ActiveRecord::Base
 
   validates_presence_of :nickname
   has_many :messages, dependent: :destroy
-
 end

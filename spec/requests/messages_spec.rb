@@ -21,10 +21,9 @@ RSpec.describe 'Messages API', type: :request do
   end
 
   describe 'POST /messages' do
-
     context 'when the request has valid JWT' do
       context 'and request is valid' do
-        let(:valid_attributes) { { body: 'body message', user_id: user.id } }
+        let(:valid_attributes) { { body: 'body message' } }
         sign_in(:user)
         before { post '/messages', params: valid_attributes }
 
@@ -39,14 +38,14 @@ RSpec.describe 'Messages API', type: :request do
 
       context 'but request is invalid' do
         sign_in(:user)
-        before { post '/messages', params: { body: 'Foobar' } }
+        before { post '/messages', params: { not_a_body: 'Foobar' } }
 
         it 'returns status code 422' do
           expect(response).to have_http_status(422)
         end
 
         it 'returns a validation failure message' do
-          expect(json['user']).to eq(['must exist'])
+          expect(json['body']).to eq(["can't be blank"])
         end
       end
     end
@@ -54,11 +53,11 @@ RSpec.describe 'Messages API', type: :request do
 
   context 'when the request doesnt have valid JWT' do
     context 'and request is valid' do
-      let(:valid_attributes) { { body: 'body message', user_id: user.id } }
+      let(:valid_attributes) { { body: 'body message' } }
       before { post '/messages', params: valid_attributes }
 
       it 'returns a unauthorized failure message' do
-        expect(response.body).to eq('body message')
+        expect(json['errors']).to eq(['You need to sign in or sign up before continuing.'])
       end
 
       it 'returns status code 401' do
@@ -85,7 +84,7 @@ RSpec.describe 'Messages API', type: :request do
       before { put "/messages/#{message_id}" }
 
       it 'returns a unauthorized failure message' do
-        expect(response.body).to eq('body message')
+        expect(json['errors']).to eq(['You need to sign in or sign up before continuing.'])
       end
 
       it 'returns status code 401' do

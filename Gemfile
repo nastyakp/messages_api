@@ -11,10 +11,10 @@ gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
 gem 'active_model_serializers', '~> 0.10.0'
+gem 'devise_token_auth'
 gem 'jbuilder', '~> 2.5'
 gem 'puma', '~> 3.11'
 gem 'slim'
-gem 'devise_token_auth'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
