@@ -19,7 +19,7 @@ class MessagesController < ApplicationController
 
   def update
     @message = Message.find(params[:id])
-    @message.update_attributes(votes: @message.votes + 1)
+    @message.increment!(:votes, 1)
     head :no_content
   end
 
