@@ -10,42 +10,32 @@ class User < ActiveRecord::Base
   validates_presence_of :nickname
   has_many :messages, dependent: :destroy
 
-  scope :most_messages, lambda {
-                          left_joins(:messages)
-                            .group(:id)
-                            .order('count(messages.user_id)  DESC')
-                            .limit(5)
-                        }
-  scope :most_messages_week, lambda {
-                               left_joins(:messages)
-                                 .where('messages.created_at > ?', Time.now - 1.week)
-                                 .group(:id).order('count(messages.user_id)  DESC')
-                                 .limit(5)
-                             }
-  scope :most_messages_day, lambda {
-                              left_joins(:messages)
-                                .where('messages.created_at > ?', Time.now - 1.day)
-                                .group(:id)
-                                .order('count(messages.user_id)  DESC')
-                                .limit(5)
-                            }
-  scope :most_popular, lambda {
-                         left_joins(:messages)
-                           .group(:id)
+  scope :most_messages_week, -> { most_messages(Time.now - 1.week) }
+  scope :most_messages_day,  -> { most_messages(Time.now - 1.day) }
+  scope :most_popular_week,  -> { most_popular(Time.now - 1.week) }
+  scope :most_popular_day,   -> { most_popular(Time.now - 1.day) }
+
+  def self.most_popular(from_date = false)
+    if from_date
+      left_joins(:messages).where('messages.created_at > ?', from_date)
+                           .group(:id).order('sum(messages.votes)/count(messages.user_id) DESC')
+                           .limit(5)
+    else
+      left_joins(:messages).group(:id)
                            .order('sum(messages.votes)/count(messages.user_id) DESC')
                            .limit(5)
-                       }
-  scope :most_popular_week, lambda {
-                              left_joins(:messages)
-                                .where('messages.created_at > ?', Time.now - 1.week)
-                                .group(:id).order('sum(messages.votes)/count(messages.user_id) DESC')
-                                .limit(5)
-                            }
-  scope :most_popular_day, lambda {
-                             left_joins(:messages)
-                               .where('messages.created_at > ?', Time.now - 1.day)
-                               .group(:id)
-                               .order('sum(messages.votes)/count(messages.user_id) DESC')
-                               .limit(5)
-                           }
+    end
+  end
+
+  def self.most_messages(from_date = false)
+    if from_date
+      left_joins(:messages).where('messages.created_at > ?', from_date)
+                           .group(:id).order('count(messages.user_id)  DESC')
+                           .limit(5)
+    else
+      left_joins(:messages).group(:id)
+                           .order('count(messages.user_id)  DESC')
+                           .limit(5)
+    end
+  end
 end
