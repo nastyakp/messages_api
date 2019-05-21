@@ -1,0 +1,38 @@
+doctype html
+html
+  head
+    meta content=("text/html; charset=utf-8") http-equiv="Content-Type" /
+    /!* next line to avoid request 4 favicon */
+    link href="data:image/x-icon;," rel=("shortcut icon") type="image/x-icon" /
+  body
+    h3 За всегда
+    p ТОП 5 пользователей, написавших больше всего сообщений
+    - @allways[:most_mess].each do |user|
+      li = user.nickname
+    p ТОП 5 пользователей, написавших сообщения, набравшие наибольшее количество голосов
+    - @allways[:most_voted].each do |message|
+      li = message.user.nickname + ': ' + message.body
+    p ТОП 5 пользователей с наибольшим рейтингом
+    - @allways[:most_popular].each do |user|
+      - if not  user.messages.empty?
+        li = user.nickname
+    h3 За неделю
+    p ТОП 5 пользователей, написавших больше всего сообщений
+    - @week[:most_mess].each do |user|
+      li = user.nickname
+    p ТОП 5 пользователей, написавших сообщения, набравшие наибольшее количество голосов
+    - @week[:most_voted].each do |message|
+      li = message.user.nickname + ': ' + message.body
+    p ТОП 5 пользователей с наибольшим рейтингом
+    - @week[:most_popular].each do |user|
+      li = user.nickname
+    h3 За сегодня
+    p ТОП 5 пользователей, написавших больше всего сообщений
+    - @today[:most_mess].each do |user|
+      li = user.nickname
+    p ТОП 5 пользователей, написавших сообщения, набравшие наибольшее количество голосов
+    - @today[:most_voted].each do |message|
+      li = message.user.nickname + ': ' + message.body
+    p ТОП 5 пользователей с наибольшим рейтингом
+    - @today[:most_popular].each do |user|
+      li = user.nickname

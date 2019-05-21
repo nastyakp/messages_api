@@ -1,0 +1,13 @@
+Metrics/LineLength:
+  Description: 'Limit lines to 112 characters.'
+  StyleGuide: '#112-character-limits'
+  Max: 112
+AllCops:
+  Exclude:
+    - 'bin/update'
+    - 'bin/setup'
+    - 'db/migrate/20190519145417_devise_token_auth_create_users.rb'
+Metrics/BlockLength:
+  Max: 100
+Metrics/MethodLength: 
+  Max: 20
